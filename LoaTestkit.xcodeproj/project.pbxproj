@@ -32,6 +32,8 @@
 		9BC516F4188084EE000C9110 /* FrameBuffer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9BC516F3188084EE000C9110 /* FrameBuffer.mm */; };
 		9BC516F718808573000C9110 /* UIImage+OpenCV.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9BC516F618808573000C9110 /* UIImage+OpenCV.mm */; };
 		9BC516F918808605000C9110 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BC516F818808605000C9110 /* opencv2.framework */; };
+		9BDAC75D1880BE7A00C66C17 /* ReviewVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BDAC75C1880BE7A00C66C17 /* ReviewVideoViewController.m */; };
+		9BDAC7601880BEA400C66C17 /* ProcessingResults.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BDAC75F1880BEA400C66C17 /* ProcessingResults.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +83,10 @@
 		9BC516F518808573000C9110 /* UIImage+OpenCV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+OpenCV.h"; sourceTree = "<group>"; };
 		9BC516F618808573000C9110 /* UIImage+OpenCV.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "UIImage+OpenCV.mm"; sourceTree = "<group>"; };
 		9BC516F818808605000C9110 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opencv2.framework; path = ../opencv2.framework; sourceTree = "<group>"; };
+		9BDAC75B1880BE7A00C66C17 /* ReviewVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewVideoViewController.h; sourceTree = "<group>"; };
+		9BDAC75C1880BE7A00C66C17 /* ReviewVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewVideoViewController.m; sourceTree = "<group>"; };
+		9BDAC75E1880BEA400C66C17 /* ProcessingResults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProcessingResults.h; sourceTree = "<group>"; };
+		9BDAC75F1880BEA400C66C17 /* ProcessingResults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProcessingResults.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +174,10 @@
 				9BC516E918807151000C9110 /* MenuViewController.m */,
 				9BC516EC18807F15000C9110 /* ProcessFramesViewController.h */,
 				9BC516ED18807F15000C9110 /* ProcessFramesViewController.m */,
+				9BDAC75B1880BE7A00C66C17 /* ReviewVideoViewController.h */,
+				9BDAC75C1880BE7A00C66C17 /* ReviewVideoViewController.m */,
+				9BDAC75E1880BEA400C66C17 /* ProcessingResults.h */,
+				9BDAC75F1880BEA400C66C17 /* ProcessingResults.m */,
 			);
 			path = LoaTestkit;
 			sourceTree = "<group>";
@@ -299,11 +309,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9BDAC75D1880BE7A00C66C17 /* ReviewVideoViewController.m in Sources */,
 				9BC516EE18807F15000C9110 /* ProcessFramesViewController.m in Sources */,
 				9BC516F718808573000C9110 /* UIImage+OpenCV.mm in Sources */,
 				9BC516DE18806CF6000C9110 /* SelectVideoViewController.m in Sources */,
 				9BC516EA18807151000C9110 /* MenuViewController.m in Sources */,
 				9BC516E71880700D000C9110 /* PlayVideoViewController.m in Sources */,
+				9BDAC7601880BEA400C66C17 /* ProcessingResults.m in Sources */,
 				9BC516BE18806B49000C9110 /* ViewController.m in Sources */,
 				9BC516F4188084EE000C9110 /* FrameBuffer.mm in Sources */,
 				9BC516B518806B49000C9110 /* AppDelegate.m in Sources */,
@@ -534,6 +546,7 @@
 				9BC516D818806B4A000C9110 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9BC516D918806B4A000C9110 /* Build configuration list for PBXNativeTarget "LoaTestkitTests" */ = {
 			isa = XCConfigurationList;
@@ -542,6 +555,7 @@
 				9BC516DB18806B4A000C9110 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
