@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #include "FrameBuffer.h"
+#include "ProcessingResults.h"
 #include <AVFoundation/AVFoundation.h>
 
 @interface ProcessFramesViewController : UIViewController
@@ -18,6 +19,7 @@
 @property (strong, nonatomic) NSURL* assetURL;
 @property (strong, nonatomic) AVAssetReader* reader;
 @property (strong, nonatomic) FrameBuffer* frameBuffer;
+@property (strong, nonatomic) ProcessingResults* processingResults;
 
 - (NSNumber*)countAssetFrames;
 

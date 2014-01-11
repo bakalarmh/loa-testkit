@@ -17,4 +17,6 @@
 @property (nonatomic, strong) NSMutableArray* startFrames;
 @property (nonatomic, strong) NSMutableArray* endFrames;
 
+- (id)initWithFrameBuffer:(FrameBuffer*)buffer;
+
 @end

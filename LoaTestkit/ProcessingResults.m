@@ -15,12 +15,14 @@
 @synthesize startFrames;
 @synthesize endFrames;
 
-- (void)initWithFrameBuffer:(FrameBuffer*)buffer
+- (id)initWithFrameBuffer:(FrameBuffer*)buffer
 {
     self.frameBuffer = buffer;
     self.points = [[NSMutableArray alloc] init];
     self.startFrames = [[NSMutableArray alloc] init];
     self.endFrames = [[NSMutableArray alloc] init];
+    
+    return self;
 }
 
 - (void)addPoint:(CGPoint)point from:(NSInteger)startFrame to:(NSInteger)endFrame
