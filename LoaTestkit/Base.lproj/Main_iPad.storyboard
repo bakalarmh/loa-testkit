@@ -146,10 +146,10 @@
             </objects>
             <point key="canvasLocation" x="1461" y="838"/>
         </scene>
-        <!--View Controller-->
+        <!--Review Video View Controller-->
         <scene sceneID="IDq-br-dZ0">
             <objects>
-                <viewController id="J0f-Zf-HV4" sceneMemberID="viewController">
+                <viewController id="J0f-Zf-HV4" customClass="ReviewVideoViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="I8t-6K-JZd"/>
                         <viewControllerLayoutGuide type="bottom" id="ek6-o3-X0a"/>
@@ -157,9 +157,18 @@
                     <view key="view" contentMode="scaleToFill" id="VFh-5S-RSt">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b1o-IK-mao">
+                                <rect key="frame" x="0.0" y="20" width="768" height="1055"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="9kZ-0x-m6W"/>
+                    <connections>
+                        <outlet property="imageView" destination="b1o-IK-mao" id="KSC-Og-v0N"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="H5A-Km-JSb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

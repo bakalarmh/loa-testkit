@@ -10,6 +10,7 @@
 #import "SelectVideoViewController.h"
 #import "PlayVideoViewController.h"
 #import "ProcessFramesViewController.h"
+#import "ReviewVideoViewController.h"
 
 @interface MenuViewController ()
 
@@ -18,6 +19,7 @@
 @implementation MenuViewController
 
 @synthesize assetURL;
+@synthesize processingResults;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -56,7 +58,15 @@
 
 - (void)didCancel
 {
-    
+    // nothing to do here
+}
+
+#pragma mark - ProcessFrames delegate
+
+- (void)finishedProcessingWithResults:(ProcessingResults*)results
+{
+    // hold on to the processing results reference
+    processingResults = results;
 }
 
 #pragma mark - Navigation
@@ -75,6 +85,11 @@
     else if ([segue.identifier isEqualToString:@"Process"]) {
         ProcessFramesViewController* viewController = (ProcessFramesViewController*)segue.destinationViewController;
         viewController.assetURL = self.assetURL;
+        viewController.delegate = self;
+    }
+    else if ([segue.identifier isEqualToString:@"Review"]) {
+        ReviewVideoViewController* viewController = (ReviewVideoViewController*)segue.destinationViewController;
+        viewController.processingResults = processingResults;
     }
 }
 

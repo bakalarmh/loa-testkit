@@ -8,9 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "SelectVideoViewController.h"
+#import "ProcessingResults.h"
+#import "ProcessFramesViewController.h"
 
-@interface MenuViewController : UITableViewController <SelectVideoDelegate>
+@interface MenuViewController : UITableViewController <SelectVideoDelegate, ProcessFramesDelegate>
 
 @property (strong, nonatomic) NSURL *assetURL;
+@property (strong, nonatomic) ProcessingResults* processingResults;
 
 @end

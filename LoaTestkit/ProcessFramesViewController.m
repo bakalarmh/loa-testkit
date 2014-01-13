@@ -61,6 +61,9 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             messageLabel.text = @"Processing frames";
+            // #TODO - MHB terminate processing code early for testing
+            [self.delegate finishedProcessingWithResults:processingResults];
+            [self.navigationController popViewControllerAnimated:YES];
         });
         
         // Launch processing code on frame structure

@@ -19,7 +19,7 @@
 @synthesize frameHeight;
 @synthesize numFrames;
 
--(id)initWithWidth:(NSInteger)width Height:(NSInteger)height Frames:(NSInteger)frames
+- (id)initWithWidth:(NSInteger)width Height:(NSInteger)height Frames:(NSInteger)frames
 {
     frameWidth = [NSNumber numberWithInt:width];
     frameHeight = [NSNumber numberWithInt:height];
@@ -34,11 +34,27 @@
     return self;
 }
 
-
-
--(void)writeFrame:(CVBufferRef)imageBuffer atIndex:(NSNumber*)index
+- (cv::Mat)getFrameAtIndex:(NSInteger)index
 {
-    NSLog(@"Write %d", index.intValue);
+    return buffer->at(index);
+}
+
+- (UIImage*)getUIImageFromIndex:(NSInteger)index
+{
+    return [UIImage imageWithCVMat:buffer->at(index)];
+}
+
+- (NSArray*)getUIImageArray
+{
+    NSMutableArray* array = [[NSMutableArray alloc] init];
+    for (int i=0; i < numFrames.intValue; i++) {
+        [array addObject:[UIImage imageWithCVMat:buffer->at(i)]];
+    }
+    return array;
+}
+
+- (void)writeFrame:(CVBufferRef)imageBuffer atIndex:(NSNumber*)index
+{
     // Lock the image buffer
     CVPixelBufferLockBaseAddress(imageBuffer,0);
     // Get information about the image

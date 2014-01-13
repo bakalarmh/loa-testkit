@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ProcessingResults.h"
 
 @interface ReviewVideoViewController : UIViewController
+
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (strong, nonatomic) ProcessingResults* processingResults;
 
 @end

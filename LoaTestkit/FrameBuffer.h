@@ -14,7 +14,9 @@
 @property (strong, nonatomic) NSNumber* frameHeight;
 @property (strong, nonatomic) NSNumber* numFrames;
 
--(id)initWithWidth:(NSInteger)frameWidth Height:(NSInteger)frameHeight Frames:(NSInteger)frames;
--(void)writeFrame:(CVBufferRef)imageBuffer atIndex:(NSNumber*)index;
+- (id)initWithWidth:(NSInteger)frameWidth Height:(NSInteger)frameHeight Frames:(NSInteger)frames;
+- (void)writeFrame:(CVBufferRef)imageBuffer atIndex:(NSNumber*)index;
+- (UIImage*)getUIImageFromIndex:(NSInteger)index;
+- (NSArray*)getUIImageArray;
 
 @end

@@ -11,7 +11,17 @@
 #include "ProcessingResults.h"
 #include <AVFoundation/AVFoundation.h>
 
+@protocol ProcessFramesDelegate <NSObject>
+
+@optional
+- (void)finishedProcessingWithResults:(ProcessingResults *)results;
+
+@end
+
 @interface ProcessFramesViewController : UIViewController
+
+@property (weak, nonatomic) id<ProcessFramesDelegate> delegate;
+
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityView;
 @property (weak, nonatomic) IBOutlet UIImageView *frameView;
