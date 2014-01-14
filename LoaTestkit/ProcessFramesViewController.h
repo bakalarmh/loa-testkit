@@ -30,6 +30,8 @@
 @property (strong, nonatomic) AVAssetReader* reader;
 @property (strong, nonatomic) FrameBuffer* frameBuffer;
 @property (strong, nonatomic) ProcessingResults* processingResults;
+@property (strong, nonatomic) NSMutableArray* coordsArray;
+
 
 - (NSNumber*)countAssetFrames;
 

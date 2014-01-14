@@ -8,6 +8,7 @@
 
 #import "ProcessFramesViewController.h"
 #import <AVFoundation/AVFoundation.h>
+#import "MotionAnalysis.h"
 
 @interface ProcessFramesViewController ()
 
@@ -23,13 +24,15 @@
 @synthesize reader;
 @synthesize frameBuffer;
 @synthesize processingResults;
-
+@synthesize coordsArray;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
     }
+    coordsArray = [[NSMutableArray alloc] init];
+
     return self;
 }
 
@@ -142,6 +145,23 @@
 - (void)beginProcessing
 {
     NSLog(@"Begin processing algorithm");
+    MotionAnalysis* analysis = [[MotionAnalysis alloc] initWithWidth: 360
+                                                              Height: 480
+                                                              Frames: 150
+                                                              Movies: 0
+                                                         Sensitivity: 1];
+    coordsArray=[analysis processFramesForMovie:(FrameBuffer *)frameBuffer];
+    for (int idx=0; idx+3<[coordsArray count]; idx=idx+4){
+        NSNumber* pointx= [coordsArray objectAtIndex:(NSInteger)idx];
+        NSNumber* pointy= [coordsArray objectAtIndex:(NSInteger)idx+1];
+
+        CGPoint point=CGPointMake([pointx floatValue], [pointy floatValue]);
+        NSNumber* start= [coordsArray objectAtIndex:(NSInteger)idx+2];
+        NSNumber* end= [coordsArray objectAtIndex:(NSInteger)idx+3];
+        
+        [processingResults addPoint:point from:[start integerValue] to:[end integerValue]];
+
+    }
     // frameBuffer
     // processingResults
     // processingResults addPoint:(CGPoint)point from:(NSInteger)startFrame to:(NSInteger)endFrame

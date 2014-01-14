@@ -18,5 +18,7 @@
 @property (nonatomic, strong) NSMutableArray* endFrames;
 
 - (id)initWithFrameBuffer:(FrameBuffer*)buffer;
+- (void)addPoint:(CGPoint)point from:(NSInteger)startFrame to:(NSInteger)endFrame;
+
 
 @end

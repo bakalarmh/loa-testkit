@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Matthew Bakalar. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 
 @interface FrameBuffer : NSObject
@@ -18,6 +19,8 @@
 - (void)writeFrame:(CVBufferRef)imageBuffer atIndex:(NSNumber*)index;
 - (UIImage*)getUIImageFromIndex:(NSInteger)index;
 - (NSArray*)getUIImageArray;
+#ifdef __cplusplus
 - (cv::Mat)getFrameAtIndex:(NSInteger)index;
+#endif
 
 @end
