@@ -305,6 +305,13 @@ int numWorms=0;
     {
         cv::Scalar color = cv::Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
         drawContours( drawing, contours, idx, color, 2, 8, hierarchy, 0, cv::Point() );
+        
+        //calculate moments
+        cv::Moments mom;
+        mom=cv::moments(contours[idx], true);
+        //get centroids
+        cv::Point2f mc;
+        mc = cv::Point2f( mom.m10/mom.m00 ,mom.m01/mom.m00 );
 
         
         double len=contourArea(contours[idx]);
@@ -312,148 +319,126 @@ int numWorms=0;
         
         if (len>10100) {
             numWorms=numWorms+6;
-            NSNumber *x = [NSNumber numberWithInt:contours[idx][0].x];
-            [coordsArray addObject:x];
-            NSNumber *y = [NSNumber numberWithInt:contours[idx][0].y];
-            [coordsArray addObject:y];
+            //NSNumber *x = [NSNumber numberWithInt:contours[idx][0].x];
+            NSNumber *x=[NSNumber numberWithInt:mc.x];
+            //[coordsArray addObject:x];
+            //NSNumber *y = [NSNumber numberWithInt:contours[idx][0].y];
+            NSNumber *y=[NSNumber numberWithInt:mc.y];
+            //[coordsArray addObject:y];
             NSNumber *start = [NSNumber numberWithInt:1];
-            [coordsArray addObject:start];
+            //[coordsArray addObject:start];
             NSNumber *end = [NSNumber numberWithInt:32];
-            [coordsArray addObject:end];
-            //just write again since we don't have real positions
-            [coordsArray addObject:x];
-            [coordsArray addObject:y];
-            [coordsArray addObject:start];
-            [coordsArray addObject:end];
-            //just write again since we don't have real positions
-            [coordsArray addObject:x];
-            [coordsArray addObject:y];
-            [coordsArray addObject:start];
-            [coordsArray addObject:end];
-            //just write again since we don't have real positions
-            [coordsArray addObject:x];
-            [coordsArray addObject:y];
-            [coordsArray addObject:start];
-            [coordsArray addObject:end];
-            //just write again since we don't have real positions
-            [coordsArray addObject:x];
-            [coordsArray addObject:y];
-            [coordsArray addObject:start];
-            [coordsArray addObject:end];
-            //just write again since we don't have real positions
-            [coordsArray addObject:x];
-            [coordsArray addObject:y];
-            [coordsArray addObject:start];
-            [coordsArray addObject:end];
+            //[coordsArray addObject:end];
+            
+            for (int i=0; i<=5; i++){
+                //just write again since we don't have real positions
+                [coordsArray addObject:x];
+                [coordsArray addObject:y];
+                [coordsArray addObject:start];
+                [coordsArray addObject:end];
+
+            }
         }
         else if (len>8100) {
             numWorms=numWorms+5;
-            NSNumber *x = [NSNumber numberWithInt:contours[idx][0].x];
-            [coordsArray addObject:x];
-            NSNumber *y = [NSNumber numberWithInt:contours[idx][0].y];
-            [coordsArray addObject:y];
+            //NSNumber *x = [NSNumber numberWithInt:contours[idx][0].x];
+            NSNumber *x=[NSNumber numberWithInt:mc.x];
+            //[coordsArray addObject:x];
+            //NSNumber *y = [NSNumber numberWithInt:contours[idx][0].y];
+            NSNumber *y=[NSNumber numberWithInt:mc.y];
+            //[coordsArray addObject:y];
             NSNumber *start = [NSNumber numberWithInt:1];
-            [coordsArray addObject:start];
+            //[coordsArray addObject:start];
             NSNumber *end = [NSNumber numberWithInt:32];
-            [coordsArray addObject:end];
-            //just write again since we don't have real positions
-            [coordsArray addObject:x];
-            [coordsArray addObject:y];
-            [coordsArray addObject:start];
-            [coordsArray addObject:end];
-            //just write again since we don't have real positions
-            [coordsArray addObject:x];
-            [coordsArray addObject:y];
-            [coordsArray addObject:start];
-            [coordsArray addObject:end];
-            //just write again since we don't have real positions
-            [coordsArray addObject:x];
-            [coordsArray addObject:y];
-            [coordsArray addObject:start];
-            [coordsArray addObject:end];
-            //just write again since we don't have real positions
-            [coordsArray addObject:x];
-            [coordsArray addObject:y];
-            [coordsArray addObject:start];
-            [coordsArray addObject:end];
+            //[coordsArray addObject:end];
+            for (int i=0; i<=4; i++){
+                //just write again since we don't have real positions
+                [coordsArray addObject:x];
+                [coordsArray addObject:y];
+                [coordsArray addObject:start];
+                [coordsArray addObject:end];
+                
+            }
 
         }
 
         else if (len>6100) {
             numWorms=numWorms+4;
-            NSNumber *x = [NSNumber numberWithInt:contours[idx][0].x];
-            [coordsArray addObject:x];
-            NSNumber *y = [NSNumber numberWithInt:contours[idx][0].y];
-            [coordsArray addObject:y];
+            //NSNumber *x = [NSNumber numberWithInt:contours[idx][0].x];
+            NSNumber *x=[NSNumber numberWithInt:mc.x];
+            //[coordsArray addObject:x];
+            //NSNumber *y = [NSNumber numberWithInt:contours[idx][0].y];
+            NSNumber *y=[NSNumber numberWithInt:mc.y];
+            //[coordsArray addObject:y];
             NSNumber *start = [NSNumber numberWithInt:1];
-            [coordsArray addObject:start];
+            //[coordsArray addObject:start];
             NSNumber *end = [NSNumber numberWithInt:32];
-            [coordsArray addObject:end];
-            //just write again since we don't have real positions
-            [coordsArray addObject:x];
-            [coordsArray addObject:y];
-            [coordsArray addObject:start];
-            [coordsArray addObject:end];
-            //just write again since we don't have real positions
-            [coordsArray addObject:x];
-            [coordsArray addObject:y];
-            [coordsArray addObject:start];
-            [coordsArray addObject:end];
-            //just write again since we don't have real positions
-            [coordsArray addObject:x];
-            [coordsArray addObject:y];
-            [coordsArray addObject:start];
-            [coordsArray addObject:end];
+            //[coordsArray addObject:end];
+            for (int i=0; i<=3; i++){
+                //just write again since we don't have real positions
+                [coordsArray addObject:x];
+                [coordsArray addObject:y];
+                [coordsArray addObject:start];
+                [coordsArray addObject:end];
+                
+            }
 
         }
 
         else if (len>4100) {
             numWorms=numWorms+3;
-            NSNumber *x = [NSNumber numberWithInt:contours[idx][0].x];
-            [coordsArray addObject:x];
-            NSNumber *y = [NSNumber numberWithInt:contours[idx][0].y];
-            [coordsArray addObject:y];
+            //NSNumber *x = [NSNumber numberWithInt:contours[idx][0].x];
+            NSNumber *x=[NSNumber numberWithInt:mc.x];
+            //[coordsArray addObject:x];
+            //NSNumber *y = [NSNumber numberWithInt:contours[idx][0].y];
+            NSNumber *y=[NSNumber numberWithInt:mc.y];
+            //[coordsArray addObject:y];
             NSNumber *start = [NSNumber numberWithInt:1];
-            [coordsArray addObject:start];
+            //[coordsArray addObject:start];
             NSNumber *end = [NSNumber numberWithInt:32];
-            [coordsArray addObject:end];
-            //just write again since we don't have real positions
-            [coordsArray addObject:x];
-            [coordsArray addObject:y];
-            [coordsArray addObject:start];
-            [coordsArray addObject:end];
-            //just write again since we don't have real positions
-            [coordsArray addObject:x];
-            [coordsArray addObject:y];
-            [coordsArray addObject:start];
-            [coordsArray addObject:end];
+            //[coordsArray addObject:end];
+            for (int i=0; i<=2; i++){
+                //just write again since we don't have real positions
+                [coordsArray addObject:x];
+                [coordsArray addObject:y];
+                [coordsArray addObject:start];
+                [coordsArray addObject:end];
+                
+            }
             
         }
         
         else if (len>2100) {
             numWorms=numWorms+2;
-            NSNumber *x = [NSNumber numberWithInt:contours[idx][0].x];
-            [coordsArray addObject:x];
-            NSNumber *y = [NSNumber numberWithInt:contours[idx][0].y];
-            [coordsArray addObject:y];
+            //NSNumber *x = [NSNumber numberWithInt:contours[idx][0].x];
+            NSNumber *x=[NSNumber numberWithInt:mc.x];
+            //[coordsArray addObject:x];
+            //NSNumber *y = [NSNumber numberWithInt:contours[idx][0].y];
+            NSNumber *y=[NSNumber numberWithInt:mc.y];
+            //[coordsArray addObject:y];
             NSNumber *start = [NSNumber numberWithInt:1];
-            [coordsArray addObject:start];
+            //[coordsArray addObject:start];
             NSNumber *end = [NSNumber numberWithInt:32];
-            [coordsArray addObject:end];
+            //[coordsArray addObject:end];
             
-            //just write again since we don't have real positions
-            [coordsArray addObject:x];
-            [coordsArray addObject:y];
-            [coordsArray addObject:start];
-            [coordsArray addObject:end];
+            for (int i=0; i<=1; i++){
+                //just write again since we don't have real positions
+                [coordsArray addObject:x];
+                [coordsArray addObject:y];
+                [coordsArray addObject:start];
+                [coordsArray addObject:end];
+                
+            }
             
         }
 
         if (len>100) {
             numWorms=numWorms+1;
-            NSNumber *x = [NSNumber numberWithInt:contours[idx][0].x];
+            //NSNumber *x = [NSNumber numberWithInt:contours[idx][0].x];
+            NSNumber *x=[NSNumber numberWithInt:mc.x];
             [coordsArray addObject:x];
-            NSNumber *y = [NSNumber numberWithInt:contours[idx][0].y];
+            //NSNumber *y = [NSNumber numberWithInt:contours[idx][0].y];
+            NSNumber *y=[NSNumber numberWithInt:mc.y];
             [coordsArray addObject:y];
             NSNumber *start = [NSNumber numberWithInt:1];
             [coordsArray addObject:start];
