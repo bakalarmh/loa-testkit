@@ -107,4 +107,5 @@
     cv::cvtColor(colorimage, grayBuffer, CV_BGRA2GRAY);
 }
 
+
 @end

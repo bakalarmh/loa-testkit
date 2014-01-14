@@ -162,6 +162,7 @@
         [processingResults addPoint:point from:[start integerValue] to:[end integerValue]];
 
     }
+
     // frameBuffer
     // processingResults
     // processingResults addPoint:(CGPoint)point from:(NSInteger)startFrame to:(NSInteger)endFrame
