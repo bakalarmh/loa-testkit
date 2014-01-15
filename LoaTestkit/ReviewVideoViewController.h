@@ -13,5 +13,6 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (strong, nonatomic) ProcessingResults* processingResults;
+@property (strong, nonatomic) NSMutableArray* circleLayers;
 
 @end

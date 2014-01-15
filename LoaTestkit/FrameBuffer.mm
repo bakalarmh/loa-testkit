@@ -56,7 +56,7 @@
 - (void) releaseFrameBuffers{
     for(int i=0; i<[numFrames intValue]; i++){
         buffer->at(i).release();
-        buffer->at(i)=cv::Mat();
+        buffer->at(i) = cv::Mat();
     }
     
 }
