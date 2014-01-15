@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		828FB459188459A300BF9A59 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828FB458188459A300BF9A59 /* opencv2.framework */; };
 		828FB45C18845A3B00BF9A59 /* MotionAnalysis.mm in Sources */ = {isa = PBXBuildFile; fileRef = 828FB45A18845A3B00BF9A59 /* MotionAnalysis.mm */; };
+		9B5A57A11886F08800092F3F /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BC516F818808605000C9110 /* opencv2.framework */; };
 		9BC516A518806B49000C9110 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BC516A418806B49000C9110 /* Foundation.framework */; };
 		9BC516A718806B49000C9110 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BC516A618806B49000C9110 /* CoreGraphics.framework */; };
 		9BC516A918806B49000C9110 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BC516A818806B49000C9110 /* UIKit.framework */; };
@@ -33,7 +33,6 @@
 		9BC516EE18807F15000C9110 /* ProcessFramesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BC516ED18807F15000C9110 /* ProcessFramesViewController.m */; };
 		9BC516F4188084EE000C9110 /* FrameBuffer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9BC516F3188084EE000C9110 /* FrameBuffer.mm */; };
 		9BC516F718808573000C9110 /* UIImage+OpenCV.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9BC516F618808573000C9110 /* UIImage+OpenCV.mm */; };
-		9BC516F918808605000C9110 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BC516F818808605000C9110 /* opencv2.framework */; };
 		9BDAC75D1880BE7A00C66C17 /* ReviewVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BDAC75C1880BE7A00C66C17 /* ReviewVideoViewController.m */; };
 		9BDAC7601880BEA400C66C17 /* ProcessingResults.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BDAC75F1880BEA400C66C17 /* ProcessingResults.m */; };
 /* End PBXBuildFile section */
@@ -49,7 +48,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		828FB458188459A300BF9A59 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opencv2.framework; path = ../../../Downloads/opencv_Framwork/opencv2.framework; sourceTree = "<group>"; };
 		828FB45A18845A3B00BF9A59 /* MotionAnalysis.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MotionAnalysis.mm; sourceTree = "<group>"; };
 		828FB45B18845A3B00BF9A59 /* MotionAnalysis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MotionAnalysis.h; sourceTree = "<group>"; };
 		9BC516A118806B49000C9110 /* LoaTestkit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LoaTestkit.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -99,8 +97,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				828FB459188459A300BF9A59 /* opencv2.framework in Frameworks */,
-				9BC516F918808605000C9110 /* opencv2.framework in Frameworks */,
+				9B5A57A11886F08800092F3F /* opencv2.framework in Frameworks */,
 				9BC516E418806D69000C9110 /* CoreMedia.framework in Frameworks */,
 				9BC516E218806D61000C9110 /* CoreVideo.framework in Frameworks */,
 				9BC516E018806D59000C9110 /* AssetsLibrary.framework in Frameworks */,
@@ -145,7 +142,6 @@
 		9BC516A318806B49000C9110 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				828FB458188459A300BF9A59 /* opencv2.framework */,
 				9BC516F818808605000C9110 /* opencv2.framework */,
 				9BC516E318806D69000C9110 /* CoreMedia.framework */,
 				9BC516E118806D61000C9110 /* CoreVideo.framework */,
@@ -466,7 +462,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				FRAMEWORK_SEARCH_PATHS = /Users/mdambrosio/Downloads/opencv_Framwork;
+				FRAMEWORK_SEARCH_PATHS = (
+					/Users/mdambrosio/Downloads/opencv_Framwork,
+					/Users/mhbakalar/Dropbox/Projects,
+				);
 				GCC_INPUT_FILETYPE = automatic;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LoaTestkit/LoaTestkit-Prefix.pch";
@@ -481,7 +480,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				FRAMEWORK_SEARCH_PATHS = /Users/mdambrosio/Downloads/opencv_Framwork;
+				FRAMEWORK_SEARCH_PATHS = (
+					/Users/mdambrosio/Downloads/opencv_Framwork,
+					/Users/mhbakalar/Dropbox/Projects,
+				);
 				GCC_INPUT_FILETYPE = automatic;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LoaTestkit/LoaTestkit-Prefix.pch";
