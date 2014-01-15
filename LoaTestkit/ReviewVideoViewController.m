@@ -45,7 +45,7 @@
     NSMutableArray* points = processingResults.points;
     NSMutableArray* startFrames = processingResults.startFrames;
     NSMutableArray* endFrames = processingResults.endFrames;
-    [self drawCirclesAtCoordinates:points withStartFrames:startFrames endFrames:endFrames forFrameNumber:[NSNumber numberWithInteger:frameNumber]];
+    [self drawCirclesAtCoordinates:points withStartFrames:startFrames endFrames:endFrames forFrameNumber:frameNumber];
     
     frameNumber += 1;
     if (frameNumber == processingResults.frameBuffer.numFrames.integerValue) {
@@ -67,7 +67,7 @@
 }
 
 // Create a CAShapeLayer for our circle on tap on the screen
-- (void)drawCirclesAtCoordinates:(NSMutableArray*)locations withStartFrames:(NSMutableArray*)startFrames endFrames:(NSMutableArray*)endFrames forFrameNumber:(NSNumber*)frame
+- (void)drawCirclesAtCoordinates:(NSMutableArray*)locations withStartFrames:(NSMutableArray*)startFrames endFrames:(NSMutableArray*)endFrames forFrameNumber:(NSInteger)frame
 {
     // Expand position of points to fit the image view
     CGSize imageSize = imageView.frame.size;
@@ -78,7 +78,7 @@
     for (NSValue* location in locations) {
         NSNumber* startFrame = (NSNumber*)[startFrames objectAtIndex:i];
         NSNumber* endFrame = (NSNumber*)[endFrames objectAtIndex:i];
-        if ((frame.integerValue > startFrame.integerValue) && (frame.integerValue <= endFrame.integerValue)) {
+        if ((frame > startFrame.integerValue) && (frame <= endFrame.integerValue)) {
             CGPoint point = location.CGPointValue;
             CGPoint rotatedPoint = CGPointMake((360.0-point.y)*multiplier, point.x*multiplier);
             UIBezierPath* path = [self makeCircleAtLocation:rotatedPoint radius:circradius];
@@ -94,6 +94,7 @@
             // Save the layer in a list of circleLayers for access later
             [circleLayers addObject:shapeLayer];
         }
+        i += 1;
     }
 }
 
