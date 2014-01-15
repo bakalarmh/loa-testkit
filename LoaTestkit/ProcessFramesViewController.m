@@ -86,7 +86,7 @@
 
 - (NSNumber*)countAssetFrames
 {
-    /*AVAsset* asset = [AVAsset assetWithURL:assetURL];
+    AVAsset* asset = [AVAsset assetWithURL:assetURL];
     reader = [[AVAssetReader alloc] initWithAsset:asset error:Nil];
     
     NSArray* tracks = [asset tracksWithMediaType:AVMediaTypeVideo];
@@ -99,18 +99,29 @@
     [reader addOutput:readerOutput];
     [reader startReading];
     
-    //CMSampleBufferRef buffer;
+    CMSampleBufferRef buffer;
     
     int i = 0;
     while ([reader status] == AVAssetReaderStatusReading )
-    {
-        [readerOutput copyNextSampleBuffer];
+    {   
+        
+        buffer=[readerOutput copyNextSampleBuffer];
         if([reader status] == AVAssetReaderStatusReading) {
             i++;
         }
-    }*/
+        if (buffer != NULL)
+        {
+            
+            CMSampleBufferInvalidate(buffer);
+            CFRelease(buffer);
+            buffer = nil;
+            //NSLog(@"released buffer");
+            
+        }
+
+    }
     
-    return [[NSNumber alloc] initWithInt:150];
+    return [[NSNumber alloc] initWithInt:i];
 }
 
 - (void)fillFrameBuffer
