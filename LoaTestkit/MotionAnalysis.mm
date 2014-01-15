@@ -36,12 +36,12 @@ int numWorms=0;
     coordsArray = [[NSMutableArray alloc] init];
     movieLengths = [[NSMutableArray alloc] init];
     return self;
-}
+}   
 
 - (NSMutableArray *)processFramesForMovie:(FrameBuffer*) frameBuffers {
     // Start at the first frame
     frameIdx = 0;
-    coordsArray = [[NSMutableArray alloc] init];
+    //coordsArray = [[NSMutableArray alloc] init];
     
     movieIdx = 0;
     //NSNumber *movielength = [movieLengths objectAtIndex:0];
@@ -187,19 +187,20 @@ int numWorms=0;
                 movieFrameMatDiff1 = movieFrameMatDiff1 + movieFrameMatDiffTmp;
                 
             }
-            else if  (i<=65) {
+            else if  (i<=64) {
                 movieFrameMatDiff2 = movieFrameMatDiff2 + movieFrameMatDiffTmp;
 
             }
-            else if (i<=94) {
+            else if (i<=92) {
                 movieFrameMatDiff3 = movieFrameMatDiff3 + movieFrameMatDiffTmp;
 
             }
-            else if (i<=123) {
+            else if (i<=120) {
                 movieFrameMatDiff4 = movieFrameMatDiff4 + movieFrameMatDiffTmp;
 
             }
-            else {
+            else if (i<=148) {
+
                 movieFrameMatDiff5 = movieFrameMatDiff5 + movieFrameMatDiffTmp;
 
             }
@@ -215,14 +216,27 @@ int numWorms=0;
     }
 
     cv::Mat backConvMat= cv::Mat::ones(20, 20, CV_32FC1);
-    backConvMat=backConvMat*.005;
+    cv::Mat backgroundConvMat= cv::Mat::ones(10, 10, CV_32FC1);
 
+    //backConvMat=backConvMat*.005;
+    cv::Scalar sum=cv::sum(movieFrameMatDiff);
+    NSLog(@"sum is %f", sum[0]);
     movieFrameMatDiff=movieFrameMatDiff+movieFrameMatBW;
-    cv::filter2D(movieFrameMatDiff,movieFrameMatDiff,-1,backConvMat, cv::Point(-1,-1));
+    cv::filter2D(movieFrameMatDiff,movieFrameMatDiff,-1,backgroundConvMat, cv::Point(-1,-1));
     double backVal;
     double maxValTrash;
     cv::minMaxLoc(movieFrameMatDiff, &backVal, &maxValTrash);
-    //backVal=backVal;
+    double backCorrFactor=sum[0]/1000000;
+    backCorrFactor=3.98/backCorrFactor*2;
+
+    //backVal=round((backVal/100)*300); //good for low
+    //backVal=round((backVal/100)*150); //good for high
+    
+    //backVal=round(backVal*3); //good for low
+    //backVal=round(backVal*1.5); //good for high
+    backVal=backVal*backCorrFactor; //good for everything
+
+
     //spatially filter and subtract background
     cv::filter2D(movieFrameMatDiff1,movieFrameMatDiff1,-1,backConvMat, cv::Point(-1,-1));
     movieFrameMatDiff1=movieFrameMatDiff1-backVal;
@@ -317,7 +331,55 @@ int numWorms=0;
         double len=contourArea(contours[idx]);
         NSLog(@"found contour %f", len);
         
-        if (len>10100) {
+        if (len>14100) {
+            numWorms=numWorms+8;
+            //NSNumber *x = [NSNumber numberWithInt:contours[idx][0].x];
+            NSNumber *x=[NSNumber numberWithInt:mc.x];
+            //[coordsArray addObject:x];
+            //NSNumber *y = [NSNumber numberWithInt:contours[idx][0].y];
+            NSNumber *y=[NSNumber numberWithInt:mc.y];
+            //[coordsArray addObject:y];
+            NSNumber *start = [NSNumber numberWithInt:1];
+            //[coordsArray addObject:start];
+            NSNumber *end = [NSNumber numberWithInt:32];
+            //[coordsArray addObject:end];
+            
+            for (int i=0; i<=7; i++){
+                //just write again since we don't have real positions
+                [coordsArray addObject:x];
+                [coordsArray addObject:y];
+                [coordsArray addObject:start];
+                [coordsArray addObject:end];
+                
+            }
+        }
+
+        
+        else if (len>12100) {
+            numWorms=numWorms+7;
+            //NSNumber *x = [NSNumber numberWithInt:contours[idx][0].x];
+            NSNumber *x=[NSNumber numberWithInt:mc.x];
+            //[coordsArray addObject:x];
+            //NSNumber *y = [NSNumber numberWithInt:contours[idx][0].y];
+            NSNumber *y=[NSNumber numberWithInt:mc.y];
+            //[coordsArray addObject:y];
+            NSNumber *start = [NSNumber numberWithInt:1];
+            //[coordsArray addObject:start];
+            NSNumber *end = [NSNumber numberWithInt:32];
+            //[coordsArray addObject:end];
+            
+            for (int i=0; i<=6; i++){
+                //just write again since we don't have real positions
+                [coordsArray addObject:x];
+                [coordsArray addObject:y];
+                [coordsArray addObject:start];
+                [coordsArray addObject:end];
+                
+            }
+        }
+
+        
+        else if (len>10100) {
             numWorms=numWorms+6;
             //NSNumber *x = [NSNumber numberWithInt:contours[idx][0].x];
             NSNumber *x=[NSNumber numberWithInt:mc.x];
