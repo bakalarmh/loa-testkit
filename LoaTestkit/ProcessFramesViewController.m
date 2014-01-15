@@ -86,7 +86,7 @@
 
 - (NSNumber*)countAssetFrames
 {
-    AVAsset* asset = [AVAsset assetWithURL:assetURL];
+    /*AVAsset* asset = [AVAsset assetWithURL:assetURL];
     reader = [[AVAssetReader alloc] initWithAsset:asset error:Nil];
     
     NSArray* tracks = [asset tracksWithMediaType:AVMediaTypeVideo];
@@ -99,18 +99,18 @@
     [reader addOutput:readerOutput];
     [reader startReading];
     
-    CMSampleBufferRef buffer;
+    //CMSampleBufferRef buffer;
     
     int i = 0;
     while ([reader status] == AVAssetReaderStatusReading )
     {
-        buffer = [readerOutput copyNextSampleBuffer];
+        [readerOutput copyNextSampleBuffer];
         if([reader status] == AVAssetReaderStatusReading) {
             i++;
         }
-    }
+    }*/
     
-    return [[NSNumber alloc] initWithInt:i];
+    return [[NSNumber alloc] initWithInt:150];
 }
 
 - (void)fillFrameBuffer
@@ -133,13 +133,30 @@
     int i = 0;
     while ([reader status] == AVAssetReaderStatusReading )
     {
+        if (buffer != NULL)
+        {
+            
+            CMSampleBufferInvalidate(buffer);
+            CFRelease(buffer);
+            buffer = nil;
+            //NSLog(@"released buffer");
+
+        }
         buffer = [readerOutput copyNextSampleBuffer];
         if([reader status] == AVAssetReaderStatusReading) {
             CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(buffer);
             [frameBuffer writeFrame:imageBuffer atIndex:[NSNumber numberWithInt:i]];
+            
             i++;
         }
+        
+        //CFRelease(buffer);
+
     }
+    
+    //[reader cancelReading];
+        //CFRelease(buffer);
+
 }
 
 - (void)beginProcessing
@@ -162,7 +179,7 @@
         [processingResults addPoint:point from:[start integerValue] to:[end integerValue]];
 
     }
-
+    [frameBuffer releaseFrameBuffers];
     // frameBuffer
     // processingResults
     // processingResults addPoint:(CGPoint)point from:(NSInteger)startFrame to:(NSInteger)endFrame

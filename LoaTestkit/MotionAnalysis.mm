@@ -36,7 +36,7 @@ int numWorms=0;
     coordsArray = [[NSMutableArray alloc] init];
     movieLengths = [[NSMutableArray alloc] init];
     return self;
-}   
+}
 
 - (NSMutableArray *)processFramesForMovie:(FrameBuffer*) frameBuffers {
     // Start at the first frame
@@ -115,7 +115,7 @@ int numWorms=0;
             }
             else {
                 
-                UIImage * diff3;
+                /*UIImage * diff3;
                 cv::Mat movieFrameMatDiff38=movieFrameMatCum.clone()/i;
                 movieFrameMatDiff38.convertTo(movieFrameMatDiff38, CV_8UC1);
                 diff3 = [[UIImage alloc] initWithCVMat:movieFrameMatDiff38];

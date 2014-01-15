@@ -19,6 +19,8 @@
 - (void)writeFrame:(CVBufferRef)imageBuffer atIndex:(NSNumber*)index;
 - (UIImage*)getUIImageFromIndex:(NSInteger)index;
 - (NSArray*)getUIImageArray;
+- (void)releaseFrameBuffers;
+
 #ifdef __cplusplus
 - (cv::Mat)getFrameAtIndex:(NSInteger)index;
 #endif

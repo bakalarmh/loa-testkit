@@ -53,6 +53,14 @@
     return array;
 }
 
+- (void) releaseFrameBuffers{
+    for(int i=0; i<[numFrames intValue]; i++){
+        buffer->at(i).release();
+        buffer->at(i)=cv::Mat();
+    }
+    
+}
+
 - (void)writeFrame:(CVBufferRef)imageBuffer atIndex:(NSNumber*)index
 {
     // Lock the image buffer
