@@ -15,4 +15,7 @@
 @property (strong, nonatomic) ProcessingResults* processingResults;
 @property (strong, nonatomic) NSMutableArray* circleLayers;
 
+- (IBAction)onPlayButtonPressed:(id)sender;
+- (UIImage *)rotateImage:(UIImage*)image;
+
 @end

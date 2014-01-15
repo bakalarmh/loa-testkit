@@ -64,9 +64,6 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             messageLabel.text = @"Processing frames";
-            // #TODO - MHB terminate processing code early for testing
-            [self.delegate finishedProcessingWithResults:processingResults];
-            [self.navigationController popViewControllerAnimated:YES];
         });
         
         // Launch processing code on frame structure
@@ -116,7 +113,6 @@
             CFRelease(buffer);
             buffer = nil;
             //NSLog(@"released buffer");
-            
         }
 
     }
@@ -172,7 +168,6 @@
 
 - (void)beginProcessing
 {
-    NSLog(@"Begin processing algorithm");
     MotionAnalysis* analysis = [[MotionAnalysis alloc] initWithWidth: 360
                                                               Height: 480
                                                               Frames: 150
@@ -190,10 +185,14 @@
         [processingResults addPoint:point from:[start integerValue] to:[end integerValue]];
 
     }
-    [frameBuffer releaseFrameBuffers];
-    // frameBuffer
-    // processingResults
-    // processingResults addPoint:(CGPoint)point from:(NSInteger)startFrame to:(NSInteger)endFrame
+    
+    // Do not release the frame buffers yet. ReviewVideoViewController will use them
+    //[frameBuffer releaseFrameBuffers];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.delegate finishedProcessingWithResults:processingResults];
+        [self.navigationController popViewControllerAnimated:YES];
+    });
 }
 
 @end
