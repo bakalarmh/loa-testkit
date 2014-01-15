@@ -309,7 +309,7 @@ int numWorms=0;
 
 }
 
-- (void) countContours:(cv::vector<cv::vector<cv::Point> >) contours :(cv::vector<cv::Vec4i>) hierarchy:(int) start :(int) end {
+- (void) countContours:(cv::vector<cv::vector<cv::Point> >) contours :(cv::vector<cv::Vec4i>) hierarchy:(int) starti :(int) endi {
     cv::RNG rng(12345);
 
     cv::Mat drawing = cv::Mat::zeros(360,480, CV_8UC3 );
@@ -339,9 +339,9 @@ int numWorms=0;
             //NSNumber *y = [NSNumber numberWithInt:contours[idx][0].y];
             NSNumber *y=[NSNumber numberWithInt:mc.y];
             //[coordsArray addObject:y];
-            NSNumber *start = [NSNumber numberWithInt:1];
+            NSNumber *start = [NSNumber numberWithInt:starti];
             //[coordsArray addObject:start];
-            NSNumber *end = [NSNumber numberWithInt:32];
+            NSNumber *end = [NSNumber numberWithInt:endi];
             //[coordsArray addObject:end];
             
             for (int i=0; i<=7; i++){
@@ -363,9 +363,9 @@ int numWorms=0;
             //NSNumber *y = [NSNumber numberWithInt:contours[idx][0].y];
             NSNumber *y=[NSNumber numberWithInt:mc.y];
             //[coordsArray addObject:y];
-            NSNumber *start = [NSNumber numberWithInt:1];
+            NSNumber *start = [NSNumber numberWithInt:starti];
             //[coordsArray addObject:start];
-            NSNumber *end = [NSNumber numberWithInt:32];
+            NSNumber *end = [NSNumber numberWithInt:endi];
             //[coordsArray addObject:end];
             
             for (int i=0; i<=6; i++){
@@ -387,9 +387,9 @@ int numWorms=0;
             //NSNumber *y = [NSNumber numberWithInt:contours[idx][0].y];
             NSNumber *y=[NSNumber numberWithInt:mc.y];
             //[coordsArray addObject:y];
-            NSNumber *start = [NSNumber numberWithInt:1];
+            NSNumber *start = [NSNumber numberWithInt:starti];
             //[coordsArray addObject:start];
-            NSNumber *end = [NSNumber numberWithInt:32];
+            NSNumber *end = [NSNumber numberWithInt:endi];
             //[coordsArray addObject:end];
             
             for (int i=0; i<=5; i++){
@@ -409,9 +409,9 @@ int numWorms=0;
             //NSNumber *y = [NSNumber numberWithInt:contours[idx][0].y];
             NSNumber *y=[NSNumber numberWithInt:mc.y];
             //[coordsArray addObject:y];
-            NSNumber *start = [NSNumber numberWithInt:1];
+            NSNumber *start = [NSNumber numberWithInt:starti];
             //[coordsArray addObject:start];
-            NSNumber *end = [NSNumber numberWithInt:32];
+            NSNumber *end = [NSNumber numberWithInt:endi];
             //[coordsArray addObject:end];
             for (int i=0; i<=4; i++){
                 //just write again since we don't have real positions
@@ -432,9 +432,9 @@ int numWorms=0;
             //NSNumber *y = [NSNumber numberWithInt:contours[idx][0].y];
             NSNumber *y=[NSNumber numberWithInt:mc.y];
             //[coordsArray addObject:y];
-            NSNumber *start = [NSNumber numberWithInt:1];
+            NSNumber *start = [NSNumber numberWithInt:starti];
             //[coordsArray addObject:start];
-            NSNumber *end = [NSNumber numberWithInt:32];
+            NSNumber *end = [NSNumber numberWithInt:endi];
             //[coordsArray addObject:end];
             for (int i=0; i<=3; i++){
                 //just write again since we don't have real positions
@@ -455,9 +455,9 @@ int numWorms=0;
             //NSNumber *y = [NSNumber numberWithInt:contours[idx][0].y];
             NSNumber *y=[NSNumber numberWithInt:mc.y];
             //[coordsArray addObject:y];
-            NSNumber *start = [NSNumber numberWithInt:1];
+            NSNumber *start = [NSNumber numberWithInt:starti];
             //[coordsArray addObject:start];
-            NSNumber *end = [NSNumber numberWithInt:32];
+            NSNumber *end = [NSNumber numberWithInt:endi];
             //[coordsArray addObject:end];
             for (int i=0; i<=2; i++){
                 //just write again since we don't have real positions
@@ -478,9 +478,9 @@ int numWorms=0;
             //NSNumber *y = [NSNumber numberWithInt:contours[idx][0].y];
             NSNumber *y=[NSNumber numberWithInt:mc.y];
             //[coordsArray addObject:y];
-            NSNumber *start = [NSNumber numberWithInt:1];
+            NSNumber *start = [NSNumber numberWithInt:starti];
             //[coordsArray addObject:start];
-            NSNumber *end = [NSNumber numberWithInt:32];
+            NSNumber *end = [NSNumber numberWithInt:endi];
             //[coordsArray addObject:end];
             
             for (int i=0; i<=1; i++){
@@ -502,9 +502,9 @@ int numWorms=0;
             //NSNumber *y = [NSNumber numberWithInt:contours[idx][0].y];
             NSNumber *y=[NSNumber numberWithInt:mc.y];
             [coordsArray addObject:y];
-            NSNumber *start = [NSNumber numberWithInt:1];
+            NSNumber *start = [NSNumber numberWithInt:starti];
             [coordsArray addObject:start];
-            NSNumber *end = [NSNumber numberWithInt:32];
+            NSNumber *end = [NSNumber numberWithInt:endi];
             [coordsArray addObject:end];
             
         }
