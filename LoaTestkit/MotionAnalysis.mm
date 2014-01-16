@@ -96,6 +96,8 @@ int numWorms=0;
 
             if (i==0){
                 threshold(movieFrameMat, movieFrameMatBW, 50, 255, CV_THRESH_BINARY_INV);
+                threshold(movieFrameMat, movieFrameMatBWInv, 50, 1, CV_THRESH_BINARY);
+
                 cv::Mat element = getStructuringElement(CV_SHAPE_ELLIPSE, cv::Size( 10,10 ), cv::Point( 2, 2 ));
                 cv::morphologyEx(movieFrameMatBW,movieFrameMatBW, CV_MOP_DILATE, element );
                 //cv::Mat movieFrameMatBWInv;
@@ -227,8 +229,8 @@ int numWorms=0;
     double maxValTrash;
     cv::minMaxLoc(movieFrameMatDiff, &backVal, &maxValTrash);
     double backCorrFactor=sum[0]/1000000;
-    backCorrFactor=3.98/backCorrFactor*2;
-
+    backCorrFactor=3.98/backCorrFactor*1.5; //2 is good for standard alg (non peak finding)
+    if (backCorrFactor>4) backCorrFactor=4;
     //backVal=round((backVal/100)*300); //good for low
     //backVal=round((backVal/100)*150); //good for high
     
@@ -236,40 +238,103 @@ int numWorms=0;
     //backVal=round(backVal*1.5); //good for high
     backVal=backVal*backCorrFactor; //good for everything
 
-
+    movieFrameMatBWInv.convertTo(movieFrameMatBWInv, CV_16UC1);
     //spatially filter and subtract background
     cv::filter2D(movieFrameMatDiff1,movieFrameMatDiff1,-1,backConvMat, cv::Point(-1,-1));
     movieFrameMatDiff1=movieFrameMatDiff1-backVal;
+    multiply(movieFrameMatDiff1, movieFrameMatBWInv, movieFrameMatDiff1);
 
     cv::filter2D(movieFrameMatDiff2,movieFrameMatDiff2,-1,backConvMat, cv::Point(-1,-1));
     movieFrameMatDiff2=movieFrameMatDiff2-backVal;
+    multiply(movieFrameMatDiff2, movieFrameMatBWInv, movieFrameMatDiff2);
+
 
     cv::filter2D(movieFrameMatDiff3,movieFrameMatDiff3,-1,backConvMat, cv::Point(-1,-1));
     movieFrameMatDiff3=movieFrameMatDiff3-backVal;
+    multiply(movieFrameMatDiff3, movieFrameMatBWInv, movieFrameMatDiff3);
+
 
     cv::filter2D(movieFrameMatDiff4,movieFrameMatDiff4,-1,backConvMat, cv::Point(-1,-1));
     movieFrameMatDiff4=movieFrameMatDiff4-backVal;
+    multiply(movieFrameMatDiff4, movieFrameMatBWInv, movieFrameMatDiff4);
+
 
     cv::filter2D(movieFrameMatDiff5,movieFrameMatDiff5,-1,backConvMat, cv::Point(-1,-1));
     movieFrameMatDiff5=movieFrameMatDiff5-backVal;
-    
-    movieFrameMatDiff1.convertTo(movieFrameMatDiff1, CV_8UC1);
-    threshold(movieFrameMatDiff1, movieFrameMatDiff1, 1, 255, CV_THRESH_BINARY);
-    
-    movieFrameMatDiff2.convertTo(movieFrameMatDiff2, CV_8UC1);
-    threshold(movieFrameMatDiff2, movieFrameMatDiff2, 1, 255, CV_THRESH_BINARY);
-    
-    movieFrameMatDiff3.convertTo(movieFrameMatDiff3, CV_8UC1);
-    threshold(movieFrameMatDiff3, movieFrameMatDiff3, 1, 255, CV_THRESH_BINARY);
-    
-    movieFrameMatDiff4.convertTo(movieFrameMatDiff4, CV_8UC1);
-    threshold(movieFrameMatDiff4, movieFrameMatDiff4, 1, 255, CV_THRESH_BINARY);
-    
-    movieFrameMatDiff5.convertTo(movieFrameMatDiff5, CV_8UC1);
-    threshold(movieFrameMatDiff5, movieFrameMatDiff5, 1, 255, CV_THRESH_BINARY);
+    multiply(movieFrameMatDiff5, movieFrameMatBWInv, movieFrameMatDiff5);
 
+    
+    
+    [self GetLocalMaxima:movieFrameMatDiff1: 17: 1: 5:1:32];
+
+    movieFrameMatDiff1.convertTo(movieFrameMatDiff1, CV_8UC1);
+
+    cv::Mat movieFrameMatForWatGray;
+    threshold(movieFrameMatDiff1, movieFrameMatForWatGray, 1, 255, CV_THRESH_TOZERO);
+    threshold(movieFrameMatDiff1, movieFrameMatDiff1, 1, 255, CV_THRESH_BINARY);
+    cv::Mat movieFrameMatDiff1ForWat=movieFrameMatDiff1.clone();
+    //cv::Mat wat1=[self doWatershed:movieFrameMatDiff1 :movieFrameMatForWatGray];
+    //movieFrameMatDiff1.convertTo(movieFrameMatDiff1, CV_8UC1);
+    //multiply(movieFrameMatDiff1,wat1,movieFrameMatDiff1);
+    
+    
+    
+    UIImage * diff3;
+    cv::Mat movieFrameMatDiff38;
+    movieFrameMatDiff1.convertTo(movieFrameMatDiff38, CV_8UC1);
+    diff3 = [[UIImage alloc] initWithCVMat:movieFrameMatDiff38*255];
+    UIImageWriteToSavedPhotosAlbum(diff3,
+                                   self, // send the message to 'self' when calling the callback
+                                   @selector(thisImage:hasBeenSavedInPhotoAlbumWithError:usingContextInfo:), // the selector to tell the method to call on completion
+                                   NULL); // you generally won't need a contextInfo here */
+
+    [self GetLocalMaxima:movieFrameMatDiff2: 17: 1: 5:33:60];
+
+    movieFrameMatDiff2.convertTo(movieFrameMatDiff2, CV_8UC1);
+
+    threshold(movieFrameMatDiff2, movieFrameMatForWatGray, 1, 255, CV_THRESH_TOZERO);
+    threshold(movieFrameMatDiff2, movieFrameMatDiff2, 1, 255, CV_THRESH_BINARY);
+    movieFrameMatDiff1ForWat=movieFrameMatDiff2.clone();
+    //wat1=[self doWatershed:movieFrameMatDiff2 :movieFrameMatForWatGray];
+    //movieFrameMatDiff2.convertTo(movieFrameMatDiff2, CV_8UC1);
+    //multiply(movieFrameMatDiff1,wat1,movieFrameMatDiff1);
+    [self GetLocalMaxima:movieFrameMatDiff3: 17: 1: 5:61:90];
+
+    movieFrameMatDiff3.convertTo(movieFrameMatDiff3, CV_8UC1);
+
+    threshold(movieFrameMatDiff3, movieFrameMatDiff3, 1, 255, CV_THRESH_BINARY);
+    threshold(movieFrameMatDiff3, movieFrameMatDiff3, 1, 255, CV_THRESH_BINARY);
+    movieFrameMatDiff1ForWat=movieFrameMatDiff3.clone();
+    //wat1=[self doWatershed:movieFrameMatDiff3 :movieFrameMatForWatGray];
+    //movieFrameMatDiff3.convertTo(movieFrameMatDiff3, CV_8UC1);
+    //multiply(movieFrameMatDiff1,wat1,movieFrameMatDiff1);
+
+    [self GetLocalMaxima:movieFrameMatDiff4: 17: 1: 5:91:120];
+
+    movieFrameMatDiff4.convertTo(movieFrameMatDiff4, CV_8UC1);
+
+    threshold(movieFrameMatDiff4, movieFrameMatDiff4, 1, 255, CV_THRESH_BINARY);
+    threshold(movieFrameMatDiff4, movieFrameMatDiff4, 1, 255, CV_THRESH_BINARY);
+    movieFrameMatDiff1ForWat=movieFrameMatDiff4.clone();
+    //wat1=[self doWatershed:movieFrameMatDiff4 :movieFrameMatForWatGray];
+    //movieFrameMatDiff4.convertTo(movieFrameMatDiff4, CV_8UC1);
+    //multiply(movieFrameMatDiff1,wat1,movieFrameMatDiff1);
+
+    [self GetLocalMaxima:movieFrameMatDiff5: 17: 1: 5:121:150];
+
+    movieFrameMatDiff5.convertTo(movieFrameMatDiff5, CV_8UC1);
+
+    threshold(movieFrameMatDiff5, movieFrameMatDiff5, 1, 255, CV_THRESH_BINARY);
+    threshold(movieFrameMatDiff5, movieFrameMatDiff5, 1, 255, CV_THRESH_BINARY);
+    movieFrameMatDiff1ForWat=movieFrameMatDiff5.clone();
+    //wat1=[self doWatershed:movieFrameMatDiff5 :movieFrameMatForWatGray];
+    //movieFrameMatDiff5.convertTo(movieFrameMatDiff5, CV_8UC1);
+    //multiply(movieFrameMatDiff1,wat1,movieFrameMatDiff1);
+
+    /*
     std::vector<std::vector<cv::Point> > contours;
     std::vector<cv::Vec4i> hierarchy;
+    
     
     findContours( movieFrameMatDiff1, contours, hierarchy,
                  CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE );
@@ -294,9 +359,14 @@ int numWorms=0;
     findContours( movieFrameMatDiff5, contours, hierarchy,
                  CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE );
     [self countContours:contours:hierarchy:121:150];
-    
+    */
     numWorms=numWorms/5;
     NSLog(@"numWorms %i", numWorms);
+    
+    
+    
+    
+    
     movieFrameMatDiff.release();
     movieFrameMatDiff1.release();
     movieFrameMatDiff2.release();
@@ -307,6 +377,78 @@ int numWorms=0;
 
     return coordsArray;
 
+}
+
+-(cv::Mat) doWatershed:(cv::Mat) movieFrameMatDiff1ForWat: (cv::Mat) movieFrameMatDiff1ForWatGray {
+    
+    //test watershed
+    cv::Mat kernel= cv::Mat::ones(3, 3, CV_32FC1);
+    
+    //sure_bg = cv2.dilate(movieFrameMatWat,kernel,iterations=3)
+    cv::Mat sureBG;
+    cv::Mat element = getStructuringElement(CV_SHAPE_RECT, cv::Size( 3,3 ));
+    cv::morphologyEx(movieFrameMatDiff1ForWat,sureBG, CV_MOP_DILATE, element );
+    cv::morphologyEx(sureBG,sureBG, CV_MOP_DILATE, element );
+    cv::morphologyEx(sureBG,sureBG, CV_MOP_DILATE, element );
+    //cv::filter2D(movieFrameMatWat,sureBG,-1,kernel, cv::Point(-1,-1));
+    //cv::filter2D(sureBG,sureBG,-1,kernel, cv::Point(-1,-1));
+    //cv::filter2D(sureBG,sureBG,-1,kernel, cv::Point(-1,-1));
+    
+    //dist_transform = cv2.distanceTransform(opening,cv2.DIST_L2,5)
+    cv::Mat distTrans;
+    distanceTransform(movieFrameMatDiff1ForWat, distTrans, CV_DIST_L2, 5);
+    //ret, sure_fg = cv2.threshold(dist_transform,0.7*dist_transform.max(),255,0)
+    cv::Mat sureFG;
+    double maxVal;
+    double minValTrash;
+    cv::minMaxLoc(distTrans, &minValTrash, &maxVal);
+    
+    threshold(distTrans, sureFG,0.5*maxVal, 255, CV_THRESH_BINARY);
+    cv::Mat unknown;
+    sureFG.convertTo(sureFG, CV_8UC1);
+    cv::subtract(sureBG, sureFG, unknown);
+    int compCount = 0;
+    cv::vector<cv::vector<cv::Point> > contours2;
+    cv::vector<cv::Vec4i> hierarchy2;
+    
+    findContours(sureFG, contours2, hierarchy2, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
+    cv::Mat markers=cv::Mat::ones(sureFG.size(), CV_32S);
+
+    if( !contours2.empty() ){
+        
+        //cv::Mat markers(sureFG.size(), CV_32S);
+        markers = cv::Scalar::all(0);
+        int idx = 0;
+        for( ; idx >= 0; idx = hierarchy2[idx][0], compCount++ ) {
+            drawContours(markers, contours2, idx, cv::Scalar::all(compCount+1), -1, 8, hierarchy2, INT_MAX);
+        }
+        
+        markers=markers+1;
+        unknown.convertTo(unknown, CV_32S);
+        markers=markers-(unknown/255);
+        cv::Mat movieFrameMatWatRGB;
+        cvtColor(movieFrameMatDiff1ForWatGray, movieFrameMatWatRGB, CV_GRAY2RGB);
+        //movieFrameMatWat.convertTo(movieFrameMatWatRGB, CV_8UC3);
+        watershed( movieFrameMatWatRGB, markers );
+        markers=markers+1;
+        markers.convertTo(markers, CV_8UC1);
+        threshold(markers, markers,1, 1, CV_THRESH_BINARY);
+        
+        //markers.convertTo(markers,CV_8UC1);'
+        /*UIImage * diff3;
+         cv::Mat movieFrameMatDiff38;
+         markers.convertTo(movieFrameMatDiff38, CV_8UC1);
+         diff3 = [[UIImage alloc] initWithCVMat:movieFrameMatDiff38*255];
+         UIImageWriteToSavedPhotosAlbum(diff3,
+         self, // send the message to 'self' when calling the callback
+         @selector(thisImage:hasBeenSavedInPhotoAlbumWithError:usingContextInfo:), // the selector to tell the method to call on completion
+         NULL); // you generally won't need a contextInfo here */
+        
+    }
+    markers.convertTo(markers, CV_8UC1);
+    return markers;
+
+    
 }
 
 - (void) countContours:(cv::vector<cv::vector<cv::Point> >) contours :(cv::vector<cv::Vec4i>) hierarchy:(int) starti :(int) endi {
@@ -512,7 +654,7 @@ int numWorms=0;
             //NSLog(@"found small contour %f", len);
         }
     }
-    UIImage * diff2;
+    /*UIImage * diff2;
     cv::Mat movieFrameMatDiff28;
     drawing.convertTo(movieFrameMatDiff28, CV_8UC1);
     diff2 = [[UIImage alloc] initWithCVMat:movieFrameMatDiff28];
@@ -523,6 +665,88 @@ int numWorms=0;
                                    NULL); // you generally won't need a contextInfo here*/
 
 }
+
+//cv::vector <cv::Point> GetLocalMaxima(const cv::Mat Src,int MatchingSize, int Threshold, int GaussKernel  )
+//cv::Mat GetLocalMaxima(const cv::Mat Src,int MatchingSize, int Threshold, int GaussKernel  )
+-(cv::vector <cv::Point>) GetLocalMaxima:(const cv::Mat) Src:(int) MatchingSize: (int) Threshold: (int) GaussKernel:(int) starti :(int) endi
+
+
+{
+
+    cv::vector <cv::Point> vMaxLoc(0);
+    
+    if ((MatchingSize % 2 == 0) || (GaussKernel % 2 == 0)) // MatchingSize and GaussKernel have to be "odd" and > 0
+    {
+        //return vMaxLoc;
+    }
+    //MatchingSize=14;
+    vMaxLoc.reserve(100); // Reserve place for fast access
+    cv::Mat ProcessImg = Src.clone();
+    int W = Src.cols;
+    int H = Src.rows;
+    //cv::Mat out=cv::Mat::zeros(H,W,CV_8UC1);
+
+    int SearchWidth  = W - MatchingSize;
+    int SearchHeight = H - MatchingSize;
+    int MatchingSquareCenter = MatchingSize/2;
+    
+    uchar* pProcess = (uchar *) ProcessImg.data; // The pointer to image Data
+    
+    int Shift = MatchingSquareCenter * ( W + 1);
+    int k = 0;
+    Threshold=0;
+    for(int y=0; y < SearchHeight; ++y)
+    {
+        int m = k + Shift;
+        for(int x=0;x < SearchWidth ; ++x)
+        {
+            if (pProcess[m++] >= Threshold)
+            {
+                cv::Point LocMax;
+                cv::Mat mROI(ProcessImg, cv::Rect(x,y,MatchingSize,MatchingSize));
+                minMaxLoc(mROI,NULL,NULL,NULL,&LocMax);
+                if (LocMax.x == MatchingSquareCenter && LocMax.y == MatchingSquareCenter)
+                {
+                    vMaxLoc.push_back(cv::Point( x+LocMax.x,y + LocMax.y ));
+                    //NSLog(@"%i %i", x+LocMax.x, y+LocMax.y);
+                    int xi=x+LocMax.x;
+                    int yi= y+LocMax.y;
+                    //out.at<uchar>( y+LocMax.y,x+LocMax.x) = 255;
+                    NSNumber *x=[NSNumber numberWithInt:xi];
+                    //[coordsArray addObject:x];
+                    //NSNumber *y = [NSNumber numberWithInt:contours[idx][0].y];
+                    NSNumber *y=[NSNumber numberWithInt:yi];
+                    //[coordsArray addObject:y];
+                    NSNumber *start = [NSNumber numberWithInt:starti];
+                    //[coordsArray addObject:start];
+                    NSNumber *end = [NSNumber numberWithInt:endi];
+                    //[coordsArray addObject:end];
+                    [coordsArray addObject:x];
+                    [coordsArray addObject:y];
+                    [coordsArray addObject:start];
+                    [coordsArray addObject:end];
+                    numWorms=numWorms+1;
+
+                    // imshow("W1",mROI);cvWaitKey(0); //For gebug
+                }
+            }
+        }
+        k += W;
+    }
+    /*UIImage * diff2;
+    cv::Mat movieFrameMatDiff28;
+    out.convertTo(movieFrameMatDiff28, CV_8UC1);
+    diff2 = [[UIImage alloc] initWithCVMat:movieFrameMatDiff28];
+    
+    UIImageWriteToSavedPhotosAlbum(diff2,
+                                   self, // send the message to 'self' when calling the callback
+                                   @selector(thisImage:hasBeenSavedInPhotoAlbumWithError:usingContextInfo:), // the selector to tell the method to call on completion
+                                   NULL); // you generally won't need a contextInfo here*/
+
+    return vMaxLoc;
+    //return out;
+}
+
 
 - (void)thisImage:(UIImage *)image hasBeenSavedInPhotoAlbumWithError:(NSError *)error usingContextInfo:(void*)ctxInfo {
     if (error) {

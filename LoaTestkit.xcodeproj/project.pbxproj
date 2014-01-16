@@ -263,6 +263,9 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Matthew Bakalar";
 				TargetAttributes = {
+					9BC516A018806B49000C9110 = {
+						DevelopmentTeam = 6J7NNU7Q88;
+					};
 					9BC516C418806B49000C9110 = {
 						TestTargetID = 9BC516A018806B49000C9110;
 					};
@@ -462,6 +465,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					/Users/mdambrosio/Downloads/opencv_Framwork,
 					/Users/mhbakalar/Dropbox/Projects,
@@ -471,6 +476,7 @@
 				GCC_PREFIX_HEADER = "LoaTestkit/LoaTestkit-Prefix.pch";
 				INFOPLIST_FILE = "LoaTestkit/LoaTestkit-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -480,6 +486,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					/Users/mdambrosio/Downloads/opencv_Framwork,
 					/Users/mhbakalar/Dropbox/Projects,
@@ -489,6 +497,7 @@
 				GCC_PREFIX_HEADER = "LoaTestkit/LoaTestkit-Prefix.pch";
 				INFOPLIST_FILE = "LoaTestkit/LoaTestkit-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
