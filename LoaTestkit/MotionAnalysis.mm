@@ -16,7 +16,7 @@
     float sensitivity;
     double progress;
 }
-int numWorms=0;
+double numWorms=0;
 @synthesize coordsArray;
 
 -(id)initWithWidth:(NSInteger)width Height:(NSInteger)height
@@ -361,7 +361,7 @@ int numWorms=0;
     [self countContours:contours:hierarchy:121:150];
     */
     numWorms=numWorms/5;
-    NSLog(@"numWorms %i", numWorms);
+    NSLog(@"numWorms %f", numWorms);
     
     
     
