@@ -265,7 +265,7 @@ int numWorms=0;
 
     
     
-    [self GetLocalMaxima:movieFrameMatDiff1: 17: 1: 5:1:32];
+    [self getLocalMaxima:movieFrameMatDiff1: 17: 1: 5:1:32];
 
     movieFrameMatDiff1.convertTo(movieFrameMatDiff1, CV_8UC1);
 
@@ -288,7 +288,7 @@ int numWorms=0;
                                    @selector(thisImage:hasBeenSavedInPhotoAlbumWithError:usingContextInfo:), // the selector to tell the method to call on completion
                                    NULL); // you generally won't need a contextInfo here */
 
-    [self GetLocalMaxima:movieFrameMatDiff2: 17: 1: 5:33:60];
+    [self getLocalMaxima:movieFrameMatDiff2: 17: 1: 5:33:60];
 
     movieFrameMatDiff2.convertTo(movieFrameMatDiff2, CV_8UC1);
 
@@ -298,7 +298,7 @@ int numWorms=0;
     //wat1=[self doWatershed:movieFrameMatDiff2 :movieFrameMatForWatGray];
     //movieFrameMatDiff2.convertTo(movieFrameMatDiff2, CV_8UC1);
     //multiply(movieFrameMatDiff1,wat1,movieFrameMatDiff1);
-    [self GetLocalMaxima:movieFrameMatDiff3: 17: 1: 5:61:90];
+    [self getLocalMaxima:movieFrameMatDiff3: 17: 1: 5:61:90];
 
     movieFrameMatDiff3.convertTo(movieFrameMatDiff3, CV_8UC1);
 
@@ -309,7 +309,7 @@ int numWorms=0;
     //movieFrameMatDiff3.convertTo(movieFrameMatDiff3, CV_8UC1);
     //multiply(movieFrameMatDiff1,wat1,movieFrameMatDiff1);
 
-    [self GetLocalMaxima:movieFrameMatDiff4: 17: 1: 5:91:120];
+    [self getLocalMaxima:movieFrameMatDiff4: 17: 1: 5:91:120];
 
     movieFrameMatDiff4.convertTo(movieFrameMatDiff4, CV_8UC1);
 
@@ -320,7 +320,7 @@ int numWorms=0;
     //movieFrameMatDiff4.convertTo(movieFrameMatDiff4, CV_8UC1);
     //multiply(movieFrameMatDiff1,wat1,movieFrameMatDiff1);
 
-    [self GetLocalMaxima:movieFrameMatDiff5: 17: 1: 5:121:150];
+    [self getLocalMaxima:movieFrameMatDiff5: 17: 1: 5:121:150];
 
     movieFrameMatDiff5.convertTo(movieFrameMatDiff5, CV_8UC1);
 
@@ -668,49 +668,45 @@ int numWorms=0;
 
 //cv::vector <cv::Point> GetLocalMaxima(const cv::Mat Src,int MatchingSize, int Threshold, int GaussKernel  )
 //cv::Mat GetLocalMaxima(const cv::Mat Src,int MatchingSize, int Threshold, int GaussKernel  )
--(cv::vector <cv::Point>) GetLocalMaxima:(const cv::Mat) Src:(int) MatchingSize: (int) Threshold: (int) GaussKernel:(int) starti :(int) endi
+-(cv::vector <cv::Point>) getLocalMaxima:(const cv::Mat) src:(int) matchingSize: (int) threshold: (int) gaussKernel:(int) starti :(int) endi
 
 
 {
 
     cv::vector <cv::Point> vMaxLoc(0);
     
-    if ((MatchingSize % 2 == 0) || (GaussKernel % 2 == 0)) // MatchingSize and GaussKernel have to be "odd" and > 0
-    {
-        //return vMaxLoc;
-    }
     //MatchingSize=14;
     vMaxLoc.reserve(100); // Reserve place for fast access
-    cv::Mat ProcessImg = Src.clone();
-    int W = Src.cols;
-    int H = Src.rows;
+    cv::Mat processImg = src.clone();
+    int w = src.cols;
+    int h = src.rows;
     //cv::Mat out=cv::Mat::zeros(H,W,CV_8UC1);
 
-    int SearchWidth  = W - MatchingSize;
-    int SearchHeight = H - MatchingSize;
-    int MatchingSquareCenter = MatchingSize/2;
+    int searchWidth  = w - matchingSize;
+    int searchHeight = h - matchingSize;
+    int matchingSquareCenter = matchingSize/2;
     
-    uchar* pProcess = (uchar *) ProcessImg.data; // The pointer to image Data
+    uchar* pProcess = (uchar *) processImg.data; // The pointer to image Data
     
-    int Shift = MatchingSquareCenter * ( W + 1);
+    int shift = matchingSquareCenter * ( w + 1);
     int k = 0;
-    Threshold=0;
-    for(int y=0; y < SearchHeight; ++y)
+    threshold=0;
+    for(int y=0; y < searchHeight; ++y)
     {
-        int m = k + Shift;
-        for(int x=0;x < SearchWidth ; ++x)
+        int m = k + shift;
+        for(int x=0;x < searchWidth ; ++x)
         {
-            if (pProcess[m++] >= Threshold)
+            if (pProcess[m++] >= threshold)
             {
-                cv::Point LocMax;
-                cv::Mat mROI(ProcessImg, cv::Rect(x,y,MatchingSize,MatchingSize));
-                minMaxLoc(mROI,NULL,NULL,NULL,&LocMax);
-                if (LocMax.x == MatchingSquareCenter && LocMax.y == MatchingSquareCenter)
+                cv::Point locMax;
+                cv::Mat mROI(processImg, cv::Rect(x,y,matchingSize,matchingSize));
+                minMaxLoc(mROI,NULL,NULL,NULL,&locMax);
+                if (locMax.x == matchingSquareCenter && locMax.y == matchingSquareCenter)
                 {
-                    vMaxLoc.push_back(cv::Point( x+LocMax.x,y + LocMax.y ));
+                    vMaxLoc.push_back(cv::Point( x+locMax.x,y + locMax.y ));
                     //NSLog(@"%i %i", x+LocMax.x, y+LocMax.y);
-                    int xi=x+LocMax.x;
-                    int yi= y+LocMax.y;
+                    int xi=x+locMax.x;
+                    int yi= y+locMax.y;
                     //out.at<uchar>( y+LocMax.y,x+LocMax.x) = 255;
                     NSNumber *x=[NSNumber numberWithInt:xi];
                     //[coordsArray addObject:x];
@@ -731,7 +727,7 @@ int numWorms=0;
                 }
             }
         }
-        k += W;
+        k += w;
     }
     /*UIImage * diff2;
     cv::Mat movieFrameMatDiff28;
