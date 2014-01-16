@@ -42,7 +42,7 @@ double numWorms=0;
     // Start at the first frame
     frameIdx = 0;
     //coordsArray = [[NSMutableArray alloc] init];
-    
+    numWorms=0;
     movieIdx = 0;
     //NSNumber *movielength = [movieLengths objectAtIndex:0];
     NSInteger numFrames = 150;
