@@ -173,7 +173,7 @@
                                                               Frames: 150
                                                               Movies: 0
                                                          Sensitivity: 1];
-    coordsArray=[analysis processFramesForMovie:(FrameBuffer *)frameBuffer];
+    coordsArray = [analysis processFramesForMovie:(FrameBuffer *)frameBuffer];
     for (int idx=0; idx+3<[coordsArray count]; idx=idx+4){
         
         NSNumber* pointx= [coordsArray objectAtIndex:(NSInteger)idx];
