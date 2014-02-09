@@ -43,7 +43,7 @@
     // Start at the first frame
     frameIdx = 0;
     //coordsArray = [[NSMutableArray alloc] init];
-    
+    numWorms=0;
     movieIdx = 0;
     //NSNumber *movielength = [movieLengths objectAtIndex:0];
     NSInteger numFrames = frameBuffer.numFrames.integerValue;
@@ -67,6 +67,8 @@
     cv::Mat movieFrameMatDiff= cv::Mat::zeros(rows, cols, CV_16UC1);
     cv::Mat movieFrameMatDiffTmp;
     cv::Mat movieFrameMat;
+    cv::Mat movieFrameMatIllum;
+
     cv::Mat movieFrameMatBW;
     cv::Mat movieFrameMatBWInv;
     cv::Mat movieFrameMatBWCopy;
@@ -84,7 +86,7 @@
     frameIdx = 0;
     
     // Compute difference image from current movie
-    while(frameIdx < numFrames) {
+    while(frameIdx < (frameBuffer.numFrames.integerValue)) {
         //[self setProgressWithMovie:movidx Frame:frameIdx];
         while(i < avgFrames) {
             // Update the progress bar
@@ -96,8 +98,8 @@
             
 
             if (i==0){
-                threshold(movieFrameMat, movieFrameMatBW, 50, 255, CV_THRESH_BINARY_INV);
-                threshold(movieFrameMat, movieFrameMatBWInv, 50, 1, CV_THRESH_BINARY);
+                threshold(movieFrameMat, movieFrameMatBW, 30, 255, CV_THRESH_BINARY_INV);
+                threshold(movieFrameMat, movieFrameMatBWInv, 30, 1, CV_THRESH_BINARY);
 
                 cv::Mat element = getStructuringElement(CV_SHAPE_ELLIPSE, cv::Size( 10,10 ), cv::Point( 2, 2 ));
                 cv::morphologyEx(movieFrameMatBW,movieFrameMatBW, CV_MOP_DILATE, element );
@@ -105,6 +107,11 @@
                 //cv::subtract(cv::Scalar::all(255),movieFrameMatBW, movieFrameMatBW);
                 movieFrameMatBW.convertTo(movieFrameMatBW, CV_16UC1);
                 movieFrameMatBW=movieFrameMatBW*255;
+                
+                movieFrameMatIllum=movieFrameMat.clone();
+                movieFrameMatIllum.convertTo(movieFrameMatIllum, CV_16UC1);
+
+                
 
             }
             //cv::multiply(movieFrameMat, movieFrameMatBW, movieFrameMat);
@@ -142,6 +149,7 @@
         
         if (i == avgFrames){
             movieFrameMatNorm=movieFrameMatCum.clone()/i;
+
             /*UIImage * diff3;
             cv::Mat movieFrameMatDiff38;
             movieFrameMatNorm.convertTo(movieFrameMatDiff38, CV_8UC1);
@@ -218,14 +226,29 @@
         i = i+1;
     }
 
+    
+    
     cv::Mat backConvMat= cv::Mat::ones(20, 20, CV_32FC1);
     cv::Mat backgroundConvMat= cv::Mat::ones(10, 10, CV_32FC1);
-
     //backConvMat=backConvMat*.005;
     cv::Scalar sum=cv::sum(movieFrameMatDiff);
     NSLog(@"sum is %f", sum[0]);
     movieFrameMatDiff=movieFrameMatDiff+movieFrameMatBW;
     cv::filter2D(movieFrameMatDiff,movieFrameMatDiff,-1,backgroundConvMat, cv::Point(-1,-1));
+    
+    
+    /*UIImage * diff4;
+    cv::Mat movieFrameMatDiff48;
+    cv::divide(movieFrameMatDiff, 255, movieFrameMatDiff48);
+    movieFrameMatDiff48.convertTo(movieFrameMatDiff48, CV_8UC1);
+    diff4 = [[UIImage alloc] initWithCVMat:movieFrameMatDiff48];
+    UIImageWriteToSavedPhotosAlbum(diff4,
+                                   self, // send the message to 'self' when calling the callback
+                                   @selector(thisImage:hasBeenSavedInPhotoAlbumWithError:usingContextInfo:), // the selector to tell the method to call on completion
+                                   NULL); // you generally won't need a contextInfo here */
+
+    
+    
     double backVal;
     double maxValTrash;
     cv::minMaxLoc(movieFrameMatDiff, &backVal, &maxValTrash);
@@ -238,30 +261,169 @@
     //backVal=round(backVal*3); //good for low
     //backVal=round(backVal*1.5); //good for high
     backVal=backVal*backCorrFactor; //good for everything
+    
+    //calc illumination uniformity
+    
+    //double illumMinVal;
+    //double illumMaxVal;
+    cv::filter2D(movieFrameMatIllum,movieFrameMatIllum,-1,backConvMat, cv::Point(-1,-1));
+    //cv::minMaxLoc(movieFrameMatIllum, &illumMinVal, &illumMaxVal);
+    movieFrameMatIllum.convertTo(movieFrameMatIllum, CV_32F);
+    cv::divide(movieFrameMatIllum, 400, movieFrameMatIllum);
+    double illVal;
+    double maxill;
+    cv::minMaxLoc(movieFrameMatIllum, &illVal, &maxill);
+    NSLog(@"max, min of illum is %f, %f", maxill, illVal);
+    cv::divide(movieFrameMatIllum, maxill, movieFrameMatIllum);
+    
+    movieFrameMatDiff1.convertTo(movieFrameMatDiff1, CV_32F);
+    cv::multiply(movieFrameMatDiff1, movieFrameMatIllum, movieFrameMatDiff1);
+    movieFrameMatDiff1.convertTo(movieFrameMatDiff1, CV_16UC1);
 
+    movieFrameMatDiff2.convertTo(movieFrameMatDiff2, CV_32F);
+    cv::multiply(movieFrameMatDiff2, movieFrameMatIllum, movieFrameMatDiff2);
+    movieFrameMatDiff2.convertTo(movieFrameMatDiff2, CV_16UC1);
+
+    movieFrameMatDiff3.convertTo(movieFrameMatDiff3, CV_32F);
+    cv::multiply(movieFrameMatDiff3, movieFrameMatIllum, movieFrameMatDiff3);
+    movieFrameMatDiff3.convertTo(movieFrameMatDiff3, CV_16UC1);
+
+    movieFrameMatDiff4.convertTo(movieFrameMatDiff4, CV_32F);
+    cv::multiply(movieFrameMatDiff4, movieFrameMatIllum, movieFrameMatDiff4);
+    movieFrameMatDiff4.convertTo(movieFrameMatDiff4, CV_16UC1);
+
+    //movieFrameMatIllum.convertTo(movieFrameMatIllum, CV_32F);
+    movieFrameMatDiff5.convertTo(movieFrameMatDiff5, CV_32F);
+    
+        //cv::multiply(movieFrameMatDiff5, maxill, movieFrameMatDiff5);
+    double illVal6;
+    double maxill6;
+    cv::minMaxLoc(movieFrameMatDiff5, &illVal6, &maxill6);
+    NSLog(@"max of diff 5 before  is %f", maxill6);
+
+    cv::multiply(movieFrameMatDiff5, movieFrameMatIllum, movieFrameMatDiff5);
+    movieFrameMatDiff5.convertTo(movieFrameMatDiff5, CV_16UC1);
+    double illVal5;
+    double maxill5;
+    cv::minMaxLoc(movieFrameMatDiff5, &illVal5, &maxill5);
+    NSLog(@"max of diff 5 after is %f", maxill5);
+
+    
+    UIImage * diff4;
+    cv::Mat movieFrameMatDiff48=movieFrameMatDiff5.clone();
+    //cv::divide(movieFrameMatDiff48, 1, movieFrameMatDiff48);
+    movieFrameMatDiff48.convertTo(movieFrameMatDiff48, CV_8UC1);
+    diff4 = [[UIImage alloc] initWithCVMat:movieFrameMatDiff48];
+    UIImageWriteToSavedPhotosAlbum(diff4,
+                                   self, // send the message to 'self' when calling the callback
+                                   @selector(thisImage:hasBeenSavedInPhotoAlbumWithError:usingContextInfo:), // the selector to tell the method to call on completion
+                                   NULL); // you generally won't need a contextInfo here */
+
+    
+    //new background calcs1
+    cv::Scalar sum1=cv::sum(movieFrameMatDiff1);
+    NSLog(@"sum1 is %f", sum1[0]);
+    cv::Mat movieFrameMatDiff1Back=movieFrameMatDiff1+movieFrameMatBW;
+    cv::filter2D(movieFrameMatDiff1Back,movieFrameMatDiff1Back,-1,backgroundConvMat, cv::Point(-1,-1));
+    double backVal1;
+    double maxValTrash1;
+    cv::minMaxLoc(movieFrameMatDiff1Back, &backVal1, &maxValTrash1);
+    double backCorrFactor1=sum1[0]/1000000;
+    backCorrFactor1=3.98/backCorrFactor1*1; //2 is good for standard alg (non peak finding)
+    //if (backCorrFactor1>25) backCorrFactor1=25;
+    backVal1=backVal1*backCorrFactor1; //good for everything
+    
+    
+    
+    
+    
+    //new background calcs2
+    cv::Scalar sum2=cv::sum(movieFrameMatDiff2);
+    NSLog(@"sum2 is %f", sum2[0]);
+    cv::Mat movieFrameMatDiff2Back=movieFrameMatDiff2+movieFrameMatBW;
+    cv::filter2D(movieFrameMatDiff2Back,movieFrameMatDiff2Back,-1,backgroundConvMat, cv::Point(-1,-1));
+    double backVal2;
+    double maxValTrash2;
+    cv::minMaxLoc(movieFrameMatDiff2Back, &backVal2, &maxValTrash2);
+    double backCorrFactor2=sum2[0]/1000000;
+    backCorrFactor2=3.98/backCorrFactor2*1; //2 is good for standard alg (non peak finding)
+    //if (backCorrFactor2>25) backCorrFactor2=25;
+    backVal2=backVal2*backCorrFactor2; //good for everything
+    
+    //new background calcs3
+    cv::Scalar sum3=cv::sum(movieFrameMatDiff3);
+    NSLog(@"sum3 is %f", sum3[0]);
+    cv::Mat movieFrameMatDiff3Back=movieFrameMatDiff3+movieFrameMatBW;
+    cv::filter2D(movieFrameMatDiff3Back,movieFrameMatDiff3Back,-1,backgroundConvMat, cv::Point(-1,-1));
+    double backVal3;
+    double maxValTrash3;
+    cv::minMaxLoc(movieFrameMatDiff3Back, &backVal3, &maxValTrash3);
+    double backCorrFactor3=sum3[0]/1000000;
+    backCorrFactor3=3.98/backCorrFactor3*1; //2 is good for standard alg (non peak finding)
+    //if (backCorrFactor3>25) backCorrFactor3=25;
+    backVal3=backVal3*backCorrFactor3; //good for everything
+
+    //new background calcs4
+    cv::Scalar sum4=cv::sum(movieFrameMatDiff4);
+    NSLog(@"sum4 is %f", sum4[0]);
+    cv::Mat movieFrameMatDiff4Back=movieFrameMatDiff4+movieFrameMatBW;
+    cv::filter2D(movieFrameMatDiff4Back,movieFrameMatDiff4Back,-1,backgroundConvMat, cv::Point(-1,-1));
+    double backVal4;
+    double maxValTrash4;
+    cv::minMaxLoc(movieFrameMatDiff4Back, &backVal4, &maxValTrash4);
+    double backCorrFactor4=sum4[0]/1000000;
+    backCorrFactor4=3.98/backCorrFactor4*1; //2 is good for standard alg (non peak finding)
+    //if (backCorrFactor4>25) backCorrFactor4=25;
+    backVal4=backVal4*backCorrFactor4; //good for everything
+
+    //new background calcs5
+    cv::Scalar sum5=cv::sum(movieFrameMatDiff5);
+    NSLog(@"sum5 is %f", sum5[0]);
+    cv::Mat movieFrameMatDiff5Back=movieFrameMatDiff5+movieFrameMatBW;
+    cv::filter2D(movieFrameMatDiff5Back,movieFrameMatDiff5Back,-1,backgroundConvMat, cv::Point(-1,-1));
+    double backVal5;
+    double maxValTrash5;
+    cv::minMaxLoc(movieFrameMatDiff5Back, &backVal5, &maxValTrash5);
+    double backCorrFactor5=sum5[0]/1000000;
+    backCorrFactor5=3.98/backCorrFactor5*1; //2 is good for standard alg (non peak finding)
+    //if (backCorrFactor5>20) backCorrFactor5=20;
+    NSLog(@"backcorrfac5 is %f", backCorrFactor5);
+
+    backVal5=backVal5*backCorrFactor5; //good for everything
+    NSLog(@"back5 is %f", backVal5);
+
+    
+
+    
+    
+    
     movieFrameMatBWInv.convertTo(movieFrameMatBWInv, CV_16UC1);
     //spatially filter and subtract background
     cv::filter2D(movieFrameMatDiff1,movieFrameMatDiff1,-1,backConvMat, cv::Point(-1,-1));
-    movieFrameMatDiff1=movieFrameMatDiff1-backVal;
+    
+    movieFrameMatDiff1=movieFrameMatDiff1-backVal1;
+    
+
+    
     multiply(movieFrameMatDiff1, movieFrameMatBWInv, movieFrameMatDiff1);
 
     cv::filter2D(movieFrameMatDiff2,movieFrameMatDiff2,-1,backConvMat, cv::Point(-1,-1));
-    movieFrameMatDiff2=movieFrameMatDiff2-backVal;
+    movieFrameMatDiff2=movieFrameMatDiff2-backVal2;
     multiply(movieFrameMatDiff2, movieFrameMatBWInv, movieFrameMatDiff2);
 
 
     cv::filter2D(movieFrameMatDiff3,movieFrameMatDiff3,-1,backConvMat, cv::Point(-1,-1));
-    movieFrameMatDiff3=movieFrameMatDiff3-backVal;
+    movieFrameMatDiff3=movieFrameMatDiff3-backVal3;
     multiply(movieFrameMatDiff3, movieFrameMatBWInv, movieFrameMatDiff3);
 
 
     cv::filter2D(movieFrameMatDiff4,movieFrameMatDiff4,-1,backConvMat, cv::Point(-1,-1));
-    movieFrameMatDiff4=movieFrameMatDiff4-backVal;
+    movieFrameMatDiff4=movieFrameMatDiff4-backVal4;
     multiply(movieFrameMatDiff4, movieFrameMatBWInv, movieFrameMatDiff4);
 
 
     cv::filter2D(movieFrameMatDiff5,movieFrameMatDiff5,-1,backConvMat, cv::Point(-1,-1));
-    movieFrameMatDiff5=movieFrameMatDiff5-backVal;
+    movieFrameMatDiff5=movieFrameMatDiff5-backVal5;
     multiply(movieFrameMatDiff5, movieFrameMatBWInv, movieFrameMatDiff5);
 
     
@@ -280,7 +442,7 @@
     
     
     
-    UIImage * diff3;
+    /*UIImage * diff3;
     cv::Mat movieFrameMatDiff38;
     movieFrameMatDiff1.convertTo(movieFrameMatDiff38, CV_8UC1);
     diff3 = [[UIImage alloc] initWithCVMat:movieFrameMatDiff38*255];
