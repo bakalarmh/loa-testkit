@@ -14,6 +14,7 @@
 @protocol ProcessFramesDelegate <NSObject>
 
 @optional
+
 - (void)finishedProcessingWithResults:(ProcessingResults *)results;
 
 @end

@@ -34,6 +34,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     circleLayers = [[NSMutableArray alloc] init];
+    NSLog(@"Count: %f", (double)processingResults.points.count / 5.0);
 }
 
 - (void)animateVideo:(NSTimer *)timer

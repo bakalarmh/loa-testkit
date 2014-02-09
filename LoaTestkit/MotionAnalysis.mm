@@ -15,8 +15,8 @@
     NSInteger numMovies;
     float sensitivity;
     double progress;
+    double numWorms;
 }
-double numWorms=0;
 @synthesize coordsArray;
 
 -(id)initWithWidth:(NSInteger)width Height:(NSInteger)height
@@ -38,14 +38,15 @@ double numWorms=0;
     return self;
 }
 
-- (NSMutableArray *)processFramesForMovie:(FrameBuffer*) frameBuffers {
+- (NSMutableArray *)processFramesForMovie:(FrameBuffer*) frameBuffer {
+    numWorms = 0;
     // Start at the first frame
     frameIdx = 0;
     //coordsArray = [[NSMutableArray alloc] init];
     
     movieIdx = 0;
     //NSNumber *movielength = [movieLengths objectAtIndex:0];
-    NSInteger numFrames = 150;
+    NSInteger numFrames = frameBuffer.numFrames.integerValue;
     
     // Movie dimensions
     int rows = 360;
@@ -91,7 +92,7 @@ double numWorms=0;
             // Grab the current movie from the frame buffer list
             int bufferIdx = movieIdx*numFramesMax + (frameIdx);
             //NSLog(@"bufferidxinit: %i", bufferIdx);
-            movieFrameMat = [frameBuffers getFrameAtIndex:bufferIdx];
+            movieFrameMat = [frameBuffer getFrameAtIndex:bufferIdx];
             
 
             if (i==0){
@@ -154,7 +155,7 @@ double numWorms=0;
         if (i > avgFrames) {
             // Grab the current movie from the frame buffer list
             int bufferIdx = movieIdx*numFramesMax + (frameIdx);
-            movieFrameMat = [frameBuffers getFrameAtIndex:bufferIdx];
+            movieFrameMat = [frameBuffer getFrameAtIndex:bufferIdx];
             //cv::multiply(movieFrameMat, movieFrameMatBW, movieFrameMat);
 
             // Convert the frame into 16 bit grayscale. Space for optimization
@@ -166,7 +167,7 @@ double numWorms=0;
             int firstBufferIdx = movieIdx*numFramesMax + (frameIdx-avgFrames+1);
             //NSLog(@"bufferidxfirst: %i", bufferIdx);
             
-            movieFrameMatFirst = [frameBuffers getFrameAtIndex:firstBufferIdx];
+            movieFrameMatFirst = [frameBuffer getFrameAtIndex:firstBufferIdx];
             movieFrameMatFirst.convertTo(movieFrameMatFirst, CV_16UC1);
             
             // 3x3 spatial filter to reduce noise and downsample

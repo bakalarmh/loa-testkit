@@ -95,6 +95,26 @@
                                             <segue destination="J0f-Zf-HV4" kind="push" identifier="Review" id="5hA-m4-31R"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="RX2-OG-13c" style="IBUITableViewCellStyleDefault" id="aU0-Ti-Xsa">
+                                        <rect key="frame" x="0.0" y="240" width="768" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="aU0-Ti-Xsa" id="aIm-y5-DAh">
+                                            <rect key="frame" x="0.0" y="0.0" width="735" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Process batch" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="RX2-OG-13c">
+                                                    <rect key="frame" x="15" y="0.0" width="718" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="Ja3-Rm-C9i" kind="push" identifier="Batch" id="QIJ-lP-eKI"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -205,6 +225,63 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="19R-Lf-5DW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1461" y="-323"/>
+        </scene>
+        <!--Process Batch View Controller-->
+        <scene sceneID="BFx-AC-KPH">
+            <objects>
+                <viewController id="Ja3-Rm-C9i" customClass="ProcessBatchViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="8MZ-Yz-g2I"/>
+                        <viewControllerLayoutGuide type="bottom" id="ujG-sJ-M4y"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="QFD-8X-4fW">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="WdC-f8-KiC"/>
+                    <connections>
+                        <segue destination="r50-yD-aVq" kind="push" identifier="Process" id="GYP-km-75k"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JZu-Xs-Ref" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1435" y="3211"/>
+        </scene>
+        <!--Process Frames View Controller-->
+        <scene sceneID="psc-dI-htY">
+            <objects>
+                <viewController id="r50-yD-aVq" customClass="ProcessFramesViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="WPv-cT-Oqz"/>
+                        <viewControllerLayoutGuide type="bottom" id="6tq-Hv-Fuv"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="JtA-rt-ZXZ">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="VtO-gn-cef">
+                                <rect key="frame" x="374" y="502" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FeD-Uw-aOa">
+                                <rect key="frame" x="290" y="473" width="188" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="eOq-8m-2XV"/>
+                    <connections>
+                        <outlet property="activityView" destination="VtO-gn-cef" id="FKJ-LF-N13"/>
+                        <outlet property="messageLabel" destination="FeD-Uw-aOa" id="s6d-cs-KMb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="o1c-3o-w4E" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2552" y="3211"/>
         </scene>
         <!--Play Video View Controller-->
         <scene sceneID="5po-1v-QEy">
